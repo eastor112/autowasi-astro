@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "autowasi-static",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
