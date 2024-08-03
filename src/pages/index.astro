@@ -396,32 +396,13 @@ const metadata = {
       waste more time! :P
     </Fragment>
   </CallToAction>
+
 </Layout>
-
 <script>
-  import { messaging, getToken } from '~/libs/firebase-config';
+  import { initializeFCM, listenForMessages } from '~/libs/firebase-config';
 
-  async function requestPermission() {
-    console.log('Requesting permission...');
-    try {
-      const currentToken = await getToken(messaging, {
-        vapidKey: 'BN1l09HJFKRHzaze77EiG8XAkWENfNgkmO2UEcyFTFFEHbWmjyGnHMZKPRGqnIo8QhsRFdcnwW4tQxNJWaFiAN0',
-      });
-      if (currentToken) {
-        console.log('Current Token:', currentToken);
-      } else {
-        console.log('No registration token available. Request permission to generate one.');
-      }
-    } catch (error) {
-      console.error('An error occurred while retrieving token. ', error);
-    }
-  }
-
-  requestPermission();
-
-
-// onMessage(messaging, (payload) => {
-//   console.log('Message received. ', payload);
-//   // ...
-// });
+  document.addEventListener('DOMContentLoaded', async () => {
+    await initializeFCM();
+    listenForMessages();
+  });
 </script>

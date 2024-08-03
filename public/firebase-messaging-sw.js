@@ -1,19 +1,51 @@
-// importScripts('https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js');
-// importScripts('https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging.js');
+/* eslint-disable no-undef */
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
 
-// const firebaseConfig = {
-//   apiKey: "YOUR_API_KEY",
-//   authDomain: "YOUR_AUTH_DOMAIN",
-//   projectId: "YOUR_PROJECT_ID",
-//   storageBucket: "YOUR_STORAGE_BUCKET",
-//   messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-//   appId: "YOUR_APP_ID",
-// };
+const firebaseConfig = {
+  apiKey: "AIzaSyD7n8E7b0wtFEwSBS8oa5wVwshLXkOyvNY",
+  authDomain: "todoautos.firebaseapp.com",
+  projectId: "todoautos",
+  storageBucket: "todoautos.appspot.com",
+  messagingSenderId: "627443339943",
+  appId: "1:627443339943:web:113de9723a94056e54c182"
+};
 
-// firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-// const messaging = firebase.messaging();
+const messaging = firebase.messaging();
 
-// messaging.onMessage((payload) => {
-//   console.log('Message received. ', payload);
-// });
+messaging.onBackgroundMessage((payload) => {
+  console.log('Mensaje recibido en background:', payload);
+
+  const notificationTitle = payload.notification?.title || 'Nueva notificación';
+  const notificationOptions = {
+    body: payload.notification?.body || 'Tienes un nuevo mensaje',
+    icon: payload.notification?.icon || '/icon-default.png',
+    badge: '/badge-icon.png',
+    tag: 'notification-' + Date.now(),
+    data: payload.data,
+    actions: [
+      { action: 'open', title: 'Abrir' },
+      { action: 'close', title: 'Cerrar' }
+    ]
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+self.addEventListener('notificationclick', (event) => {
+  console.log('Notificación clickeada', event);
+
+  event.notification.close();
+
+  if (event.action === 'open') {
+    console.log('Acción "Abrir" seleccionada');
+    event.waitUntil(clients.openWindow('https://www.google.com.pe/?hl=es'));
+  } else if (event.action === 'close') {
+    console.log('Acción "Cerrar" seleccionada');
+  } else {
+    console.log('Clic general en la notificación');
+    event.waitUntil(clients.openWindow('https://www.google.com.pe/?hl=es'));
+  }
+});

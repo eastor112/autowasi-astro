@@ -90,5 +90,12 @@ export default defineConfig({
         '~': path.resolve(__dirname, './src'),
       },
     },
+    build: {
+      rollupOptions: {
+        input: {
+          'firebase-messaging-sw': './public/firebase-messaging-sw.js',
+        },
+      },
+    },
   },
 });
