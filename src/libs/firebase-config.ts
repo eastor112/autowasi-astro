@@ -23,7 +23,7 @@ export async function initializeFCM() {
     if (permission === 'granted') {
       const currentToken = await getToken(messaging, { vapidKey: import.meta.env.VITE_VAPI_KEY });
       if (currentToken) {
-        const tokenId = currentToken.substring(0, 30);
+        const tokenId = currentToken.substring(0, 60);
 
         try {
           const userDocRef = doc(db, 'tokens', tokenId);

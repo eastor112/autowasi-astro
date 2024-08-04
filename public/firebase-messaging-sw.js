@@ -16,13 +16,12 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log('Mensaje recibido en background:', payload);
-
+  console.log("executed");
   const notificationTitle = payload.notification?.title || 'Nueva notificación';
   const notificationOptions = {
     body: payload.notification?.body || 'Tienes un nuevo mensaje',
-    icon: payload.notification?.icon || '/icon-default.png',
-    badge: '/badge-icon.png',
+    icon: payload.notification?.icon || '/img/autowasi-logo.png',
+    badge: '/img/autowasi-logo.png',
     tag: 'notification-' + Date.now(),
     data: payload.data,
     actions: [
